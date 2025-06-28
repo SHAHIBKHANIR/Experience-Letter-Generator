@@ -1,254 +1,259 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Experience Letter Generator</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Experience Letter Generator</title>
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f7fa;
-        }
+  <!-- Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/file-saver/2.0.5/FileSaver.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/7.0.5/docx.min.js"></script>
 
-        .container {
-            max-width: 800px;
-            margin: 30px auto;
-            background: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 25px;
-        }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f7fa;
+    }
 
-        .form-group {
-            margin-bottom: 15px;
-        }
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
 
-        label {
-            font-weight: 600;
-            margin-bottom: 5px;
-            display: block;
-            color: #333;
-        }
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 25px;
+    }
 
-        input,
-        textarea {
-            width: 100%;
-            padding: 10px;
-            font-size: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-        }
+    .form-group {
+      margin-bottom: 15px;
+    }
 
-        button {
-            background-color: #0066cc;
-            color: white;
-            padding: 12px 25px;
-            font-size: 1rem;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-top: 15px;
-            transition: background 0.3s ease;
-        }
+    label {
+      font-weight: 600;
+      margin-bottom: 5px;
+      display: block;
+      color: #333;
+    }
 
-        button:hover {
-            background-color: #004d99;
-        }
+    input {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
 
-        #letter {
-            display: none;
-            margin-top: 40px;
-            padding: 30px;
-            border: 1px solid #ddd;
-            background: white;
-            font-size: 1rem;
-            line-height: 1.7;
-        }
+    button {
+      background-color: #0066cc;
+      color: white;
+      padding: 12px 25px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 15px;
+      margin-right: 10px;
+      transition: background 0.3s ease;
+    }
 
-        #letter h2 {
-            text-align: center;
-            text-decoration: underline;
-        }
+    button:hover {
+      background-color: #004d99;
+    }
 
-        .center {
-            text-align: center;
-        }
+    #letter {
+      display: none;
+      margin-top: 40px;
+      padding: 40px;
+      border: 1px solid #444;
+      background: white;
+      font-family: 'Georgia', serif;
+      font-size: 16px;
+      line-height: 1.7;
+      color: #111;
+      width: 100%;
+      box-sizing: border-box;
+    }
 
-        .signature {
-            margin-top: 40px;
-        }
+    #letter h2 {
+      text-align: center;
+      text-decoration: underline;
+      margin-bottom: 30px;
+      font-weight: bold;
+    }
 
-        img.logo,
-        img.sign {
-            max-height: 60px;
-        }
-    </style>
+    #letter p {
+      margin-bottom: 20px;
+      text-align: justify;
+    }
+
+    .letter-head {
+      text-align: left;
+      font-size: 0.95rem;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .signature {
+      margin-top: 60px;
+      text-align: left;
+    }
+
+    img.logo {
+      display: block;
+      margin: 0 auto 20px auto;
+      height: 60px;
+    }
+
+    img.sign {
+      height: 50px;
+      margin-top: 10px;
+    }
+
+    .center {
+      text-align: center;
+    }
+  </style>
 </head>
 
 <body>
+  <div class="container">
+    <h1>Experience Letter Generator</h1>
 
-    <div class="container">
-        <h1>Experience Letter Generator</h1>
+    <!-- Input Form -->
+    <div class="form-group"><label>Employee Name</label><input type="text" id="empName" /></div>
+    <div class="form-group"><label>Employee ID</label><input type="text" id="empId" /></div>
+    <div class="form-group"><label>Designation</label><input type="text" id="designation" /></div>
+    <div class="form-group"><label>Start Date</label><input type="date" id="startDate" /></div>
+    <div class="form-group"><label>End Date</label><input type="date" id="endDate" /></div>
 
-        <div class="form-group">
-            <label>Employee Name</label>
-            <input type="text" id="empName" placeholder="e.g., Suhail" />
-        </div>
-        <div class="form-group">
-            <label>Employee ID</label>
-            <input type="text" id="empId" placeholder="e.g., SR0221" />
-        </div>
-        <div class="form-group">
-            <label>Designation</label>
-            <input type="text" id="designation" placeholder="e.g., Software Engineer" />
-        </div>
-        <div class="form-group">
-            <label>Start Date</label>
-            <input type="date" id="startDate" />
-        </div>
-        <div class="form-group">
-            <label>End Date</label>
-            <input type="date" id="endDate" />
-        </div>
+    <button onclick="generatePDF()">Generate & Download PDF</button>
+    <button onclick="generateDocx()">Generate & Download Editable DOCX</button>
 
-        <button onclick="generatePDF()">Generate & Download PDF</button>
-        <button onclick="generateDocx()">Generate & Download Editable DOCX</button>
+    <!-- Letter Output -->
+    <div id="letter">
+      <div class="center">
+        <img src="https://cdn-icons-png.flaticon.com/512/4647/4647546.png" class="logo" alt="Logo" />
+      </div>
 
-        <div id="letter">
-            <div class="center">
-                <img src="https://cdn-icons-png.flaticon.com/512/4647/4647546.png" class="logo" alt="Logo" />
-            </div>
+      <h2>Experience Letter</h2>
 
-            <h2>Experience Letter</h2>
-            <p>
-                SmartRobust TechSolution Pvt. Ltd.<br>
-                #31, SR-Building, Vijaynagar, Bangalore - 560023<br>
-                Email: hr@smartrobust.com<br>
-                Date: <span id="todayDate"></span>
-            </p>
+      <div class="letter-head">
+        SmartRobust TechSolution Pvt. Ltd.<br />
+        #31, SR-Building, Vijaynagar, Bangalore - 560023<br />
+        Email: hr@smartrobust.com<br />
+        Date: <span id="todayDate"></span>
+      </div>
 
-            <p><strong>TO WHOMSOEVER IT MAY CONCERN</strong></p>
+      <p><strong>TO WHOMSOEVER IT MAY CONCERN</strong></p>
 
-            <p>
-                This is to certify that Mr./Ms. <span id="pEmpName"></span> (Employee ID: <span id="pEmpId"></span>) was
-                employed with SmartRobust TechSolution Pvt. Ltd. as a <span id="pDesignation"></span> from <span
-                    id="pStartDate"></span> to <span id="pEndDate"></span>.
-            </p>
+      <p>
+        This is to certify that Mr./Ms. <span id="pEmpName"></span> (Employee ID: <span id="pEmpId"></span>) was employed with SmartRobust TechSolution Pvt. Ltd. as a <span id="pDesignation"></span> from <span id="pStartDate"></span> to <span id="pEndDate"></span>.
+      </p>
 
-            <p>
-                During the tenure, <span id="pEmpName2"></span> was involved in key projects and demonstrated
-                professional conduct, teamwork, and dedication to quality delivery. The contributions were valuable and
-                appreciated by the team and management.
-            </p>
+      <p>
+        During the tenure, <span id="pEmpName2"></span> was involved in key projects and demonstrated professional conduct, teamwork, and dedication to quality delivery. The contributions were valuable and appreciated by the team and management.
+      </p>
 
-            <p>
-                We wish <span id="pEmpName3"></span> success in all future endeavors.
-            </p>
+      <p>
+        We wish <span id="pEmpName3"></span> success in all future endeavors.
+      </p>
 
-            <div class="signature">
-                <p>For SmartRobust TechSolution Pvt. Ltd.</p>
-                <img src="https://i.ibb.co/fHH2mt4/shahib-signature.png" class="sign" alt="Signature" />
-                <p><strong>Shahib</strong><br>Founder</p>
-            </div>
-        </div>
+      <div class="signature">
+        <p>For SmartRobust TechSolution Pvt. Ltd.</p>
+        <img src="https://i.ibb.co/fHH2mt4/shahib-signature.png" class="sign" alt="Signature" />
+        <p><strong>Shahib</strong><br />Founder</p>
+      </div>
     </div>
+  </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/file-saver/2.0.5/FileSaver.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/7.0.5/docx.min.js"></script>
+  <!-- Scripts -->
+  <script>
+    function generatePDF() {
+      const empName = document.getElementById("empName").value.trim();
+      const empId = document.getElementById("empId").value.trim();
+      const designation = document.getElementById("designation").value.trim();
+      const startDate = document.getElementById("startDate").value;
+      const endDate = document.getElementById("endDate").value;
 
-    <script>
-        async function generateDocx() {
-            const empName = document.getElementById("empName").value;
-            const empId = document.getElementById("empId").value;
-            const designation = document.getElementById("designation").value;
-            const startDate = document.getElementById("startDate").value;
-            const endDate = document.getElementById("endDate").value;
+      if (!empName || !empId || !designation || !startDate || !endDate) {
+        alert("Please fill all fields.");
+        return;
+      }
 
-            if (!empName || !empId || !designation || !startDate || !endDate) {
-                alert("Please fill all fields.");
-                return;
-            }
+      document.getElementById("pEmpName").innerText = empName;
+      document.getElementById("pEmpId").innerText = empId;
+      document.getElementById("pDesignation").innerText = designation;
+      document.getElementById("pStartDate").innerText = new Date(startDate).toLocaleDateString("en-IN");
+      document.getElementById("pEndDate").innerText = new Date(endDate).toLocaleDateString("en-IN");
+      document.getElementById("pEmpName2").innerText = empName;
+      document.getElementById("pEmpName3").innerText = empName;
+      document.getElementById("todayDate").innerText = new Date().toLocaleDateString("en-IN", {
+        day: "2-digit", month: "short", year: "numeric"
+      });
 
-            const startDateFormatted = new Date(startDate).toLocaleDateString('en-IN');
-            const endDateFormatted = new Date(endDate).toLocaleDateString('en-IN');
-            const today = new Date().toLocaleDateString('en-IN', {
-                day: '2-digit', month: 'short', year: 'numeric'
-            });
+      const letter = document.getElementById("letter");
+      letter.style.display = "block";
 
-            const { Document, Packer, Paragraph, TextRun, AlignmentType, HeadingLevel } = docx;
+      html2pdf().set({
+        // margin: [0.5, 0.75],
+        filename: `Experience_Letter_${empName}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 3, useCORS: true },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+      }).from(letter).save().then(() => {
+        letter.style.display = "none";
+      });
+    }
 
-            const doc = new Document({
-                sections: [{
-                    properties: {},
-                    children: [
-                        new Paragraph({
-                            text: "Experience Letter",
-                            heading: HeadingLevel.HEADING_1,
-                            alignment: AlignmentType.CENTER,
-                        }),
-                        new Paragraph({
-                            text: `SmartRobust TechSolution Pvt. Ltd.
+    async function generateDocx() {
+      const empName = document.getElementById("empName").value;
+      const empId = document.getElementById("empId").value;
+      const designation = document.getElementById("designation").value;
+      const startDate = document.getElementById("startDate").value;
+      const endDate = document.getElementById("endDate").value;
+
+      if (!empName || !empId || !designation || !startDate || !endDate) {
+        alert("Please fill all fields.");
+        return;
+      }
+
+      const { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType } = docx;
+      const doc = new Document({
+        sections: [{
+          children: [
+            new Paragraph({ text: "Experience Letter", heading: HeadingLevel.HEADING_1, alignment: AlignmentType.CENTER }),
+            new Paragraph(`SmartRobust TechSolution Pvt. Ltd.
 #31, SR-Building, Vijaynagar, Bangalore - 560023
 Email: hr@smartrobust.com
-Date: ${today}`,
-                            spacing: { after: 300 }
-                        }),
-                        new Paragraph({
-                            text: "TO WHOMSOEVER IT MAY CONCERN",
-                            spacing: { after: 300 },
-                            bold: true
-                        }),
-                        new Paragraph({
-                            children: [
-                                new TextRun(`This is to certify that Mr./Ms. ${empName} (Employee ID: ${empId}) was employed with SmartRobust TechSolution Pvt. Ltd. as a ${designation} from ${startDateFormatted} to ${endDateFormatted}.`),
-                            ],
-                            spacing: { after: 300 }
-                        }),
-                        new Paragraph({
-                            text: `During the tenure, ${empName} was involved in key projects and demonstrated professional conduct, teamwork, and dedication to quality delivery. The contributions were valuable and appreciated by the team and management.`,
-                            spacing: { after: 300 }
-                        }),
-                        new Paragraph({
-                            text: `We wish ${empName} success in all future endeavors.`,
-                            spacing: { after: 500 }
-                        }),
-                        new Paragraph({
-                            text: "For SmartRobust TechSolution Pvt. Ltd.",
-                            spacing: { after: 80 }
-                        }),
-                        new Paragraph({
-                            text: "Shahib",
-                            bold: true
-                        }),
-                        new Paragraph({
-                            text: "Founder"
-                        })
-                    ],
-                }],
-            });
+Date: ${new Date().toLocaleDateString("en-IN")}`),
+            new Paragraph({ text: "TO WHOMSOEVER IT MAY CONCERN", bold: true }),
+            new Paragraph(`This is to certify that Mr./Ms. ${empName} (Employee ID: ${empId}) was employed with SmartRobust TechSolution Pvt. Ltd. as a ${designation} from ${new Date(startDate).toLocaleDateString("en-IN")} to ${new Date(endDate).toLocaleDateString("en-IN")}.`),
+            new Paragraph(`${empName} was involved in key projects and demonstrated professional conduct, teamwork, and dedication to quality delivery. The contributions were valuable and appreciated by the team and management.`),
+            new Paragraph(`We wish ${empName} success in all future endeavors.`),
+            new Paragraph(""),
+            new Paragraph("For SmartRobust TechSolution Pvt. Ltd."),
+            new Paragraph({ text: "Shahib", bold: true }),
+            new Paragraph("Founder")
+          ]
+        }]
+      });
 
-            const blob = await Packer.toBlob(doc);
-            saveAs(blob, `Experience_Letter_${empName}.docx`);
-        }
-    </script>
-
-
-
-
+      const blob = await Packer.toBlob(doc);
+      saveAs(blob, `Experience_Letter_${empName}.docx`);
+    }
+  </script>
 </body>
-
 </html>
